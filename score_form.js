@@ -1,6 +1,7 @@
+//Make sure trigger is set to onFormSubmit
 function onFormSubmit(e) {
   //Declare form ID
-  var formId = '1zLerefHduVdRH-X0aEeAyS7bVUwLx7wcYvx67nG2oQE';
+  var formId = '[INSERT_GOOGLE_FORM_ID]';
 
   //Get form responses
   try {
@@ -8,7 +9,7 @@ function onFormSubmit(e) {
   }
   catch(ex) {
     //Write error to error log
-    var doc = DocumentApp.openById('1VCnA9TCcfIh1MyyRzyOct3UDNKEzuBJko1buYZ5vP_s');
+    var doc = DocumentApp.openById('[INSERT_ERROR_LOG_ID]');
     doc.getBody().appendParagraph('[' + new Date() + '] Error getting form responses: ' + ex);
     return false;
   }
@@ -19,7 +20,7 @@ function onFormSubmit(e) {
   }
   catch(ex) {
     //Write error to error log
-    var doc = DocumentApp.openById('1VCnA9TCcfIh1MyyRzyOct3UDNKEzuBJko1buYZ5vP_s');
+    var doc = DocumentApp.openById('[INSERT_ERROR_LOG_ID]');
     doc.getBody().appendParagraph('[' + new Date() + '] Error calculating scores: ' + ex);
     return false;
   }
@@ -30,7 +31,7 @@ function onFormSubmit(e) {
     if(checkForDups(JSON.parse(results).taleoId, formId)) {
       Logger.log('Previous submission found.  Submission will not be submitted to Taleo.');
       //Write error to error log
-      var doc = DocumentApp.openById('1VCnA9TCcfIh1MyyRzyOct3UDNKEzuBJko1buYZ5vP_s');
+      var doc = DocumentApp.openById('[INSERT_ERROR_LOG_ID]');
       doc.getBody().appendParagraph('[' + new Date() + '] Duplicate(s) found for Taleo ID ' + JSON.parse(results).taleoId + '. Results not submitted.');
     }
     else {
@@ -43,7 +44,7 @@ function onFormSubmit(e) {
   }
   catch(ex) {
     //Write error to error log
-    var doc = DocumentApp.openById('1VCnA9TCcfIh1MyyRzyOct3UDNKEzuBJko1buYZ5vP_s');
+    var doc = DocumentApp.openById('[INSERT_ERROR_LOG_ID]');
     doc.getBody().appendParagraph('[' + new Date() + '] Error submitting scores: ' + ex);
     return false;
   }
@@ -200,7 +201,7 @@ function checkForDups(taleoId, formId) {
 
 function taleoLogin() {
   //Build API call
-  var loginURL = 'https://ch.tbe.taleo.net/CH06/ats/api/v1/login?orgCode=CITIZENSCHOOLS&userName=rorys&password=citizen1';
+  var loginURL = 'https://ch.tbe.taleo.net/CH06/ats/api/v1/login?orgCode=[INSERT_COMPANY_CODE]&userName=[INSERT_TALEO_USERNAME]&password=[INSERT_TALEO_PASSWORD]';
   var loginOptions = {
     'method' : 'post',
     'contentType' : 'application/json'
